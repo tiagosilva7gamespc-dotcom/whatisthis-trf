@@ -1,25 +1,19 @@
-# Base oficial onde o binário já funciona nativamente
+# Base oficial nativa (Alpine)
 FROM traffmonetizer/cli_v2:latest
 
-# Permissão de administrador para instalar dependências
+# Permissão root para configurar o ambiente
 USER root
 
-# Instala ferramentas essenciais para o Python e o Disfarce
-RUN apk add --no-cache python3 py3-pip bash g++ make python3-dev
-
-# Instala o Gradio (com a flag necessária para evitar conflitos no Alpine)
-RUN pip3 install --no-cache-dir gradio --break-system-packages
+# Instala apenas o Python básico (sem Gradio para economizar RAM)
+RUN apk add --no-cache python3 bash
 
 WORKDIR /app
 
-# Copia os arquivos de lógica
-COPY app.py /app/app.py
+# Copia o disparador
 COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Permissões totais para o ambiente do Space
-RUN chmod +x /app/entrypoint.sh && chmod -R 777 /app
+# A Render exige que uma porta seja exposta (padrão 10000)
+EXPOSE 10000
 
-EXPOSE 7860
-
-# Comando de entrada usando o shell Bash para maior estabilidade
-ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
+CMD ["/bin/bash", "/app/entrypoint.sh"]
