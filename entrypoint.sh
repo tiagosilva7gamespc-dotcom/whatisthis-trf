@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "--- Iniciando Operário 02 (Traffmonetizer) ---"
+echo "--- Iniciando Operário 002 (Traffmonetizer) ---"
 
 # 1. Teste de Rede (Agora ele vai aparecer no log!)
 echo "--- Verificando Saída de Rede (Porta 769) ---"
